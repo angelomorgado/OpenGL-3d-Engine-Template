@@ -90,9 +90,6 @@ int main()
  
     // Process all input Callbacks
 	processCallbacks(window, &camera, &cameraPos, &is_filtered);
-
-    // draw as wireframe
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	
     // =================================== Main loop ===============================================
     while (!glfwWindowShouldClose(window))

@@ -22,6 +22,7 @@ Camera* cam;
 CameraPos* camPos;
 Skybox* skybox;
 bool* is_filtered;
+bool is_wireframe = false;
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
     cam->ProcessMouseScroll(static_cast<float>(yoffset));
@@ -59,6 +60,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		*is_filtered = !*is_filtered;
 		std::cout << "Filter: " << *is_filtered << std::endl;
+	}
+	// Keybinds
+	if (key == GLFW_KEY_P && action == GLFW_PRESS)
+	{
+        is_wireframe = !is_wireframe;
+        if (is_wireframe)
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        else
+		    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 }
 
