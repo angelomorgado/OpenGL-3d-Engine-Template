@@ -12,6 +12,7 @@
                 "-I${workspaceFolder}/Dependencies/Include",
                 "-L${workspaceFolder}/Lib",
                 "${workspaceFolder}/Src/\\*.cpp",
+                "${workspaceFolder}/Src/Scenes/\\*.cpp",
                 "${workspaceFolder}/Dependencies/Src/\\*",
                 "-lglfw3dll",
                 "-lassimp",

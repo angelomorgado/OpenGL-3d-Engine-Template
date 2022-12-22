@@ -25,6 +25,7 @@ public:
 	std::string texturePath;
 
 	Skybox(std::string texturePath);
+    Skybox();
 
 	void Draw(Shader shader, Camera camera);
 

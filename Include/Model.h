@@ -46,6 +46,7 @@ class Model
 
 	    //================ Methods =====================
         // constructor, expects a filepath to a 3D model.
+        Model();
         Model(string const& path, bool gamma = false);
 
         // draws the model, and thus all its meshes

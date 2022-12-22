@@ -1,16 +1,7 @@
-/*
-    Callbacks.h:
-
-        - Deals with everything related to callbacks such as mouse position and mouse scroll events
-        - The main function processCallbacks is responsible for dealing with all callbacks associated
-          with the program
-        note: Can't make a .cpp file due to the callbacks not allowing that
-*/
-
 #pragma once
 
-#ifndef CALLBACKS_H
-#define CALLBACKS_H
+#ifndef CALLBACKS_LAPLACE_H
+#define CALLBACKS_LAPLACE_H
 
 #include <Camera.h>
 #include <Utils.h>
@@ -18,34 +9,33 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-Camera* cam;
-CameraPos* camPos;
-Skybox* skybox;
-bool* is_filtered;
-bool is_wireframe = false;
+Camera* laplace_cam;
+CameraPos* laplace_cam_pos;
+bool* laplace_is_filtered;
+bool laplace_is_wireframe = false;
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
-    cam->ProcessMouseScroll(static_cast<float>(yoffset));
+    laplace_cam->ProcessMouseScroll(static_cast<float>(yoffset));
 }
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
 
-    if (camPos->firstMouse)
+    if (laplace_cam_pos->firstMouse)
     {
-        camPos->lastX = xpos;
-        camPos->lastY = ypos;
-        camPos->firstMouse = false;
+        laplace_cam_pos->lastX = xpos;
+        laplace_cam_pos->lastY = ypos;
+        laplace_cam_pos->firstMouse = false;
     }
 
-    float xoffset = xpos - camPos->lastX;
-    float yoffset = camPos->lastY - ypos; // reversed since y-coordinates go from bottom to top
+    float xoffset = xpos - laplace_cam_pos->lastX;
+    float yoffset = laplace_cam_pos->lastY - ypos; // reversed since y-coordinates go from bottom to top
 
-    camPos->lastX = xpos;
-    camPos->lastY = ypos;
+    laplace_cam_pos->lastX = xpos;
+    laplace_cam_pos->lastY = ypos;
 
-    cam->ProcessMouseMovement(xoffset, yoffset);
+    laplace_cam->ProcessMouseMovement(xoffset, yoffset);
 }
 
 // This callback function can't be used for things like movement because it doesn't work while pressing
@@ -58,14 +48,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	// Keybinds
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
 	{
-		*is_filtered = !*is_filtered;
-		std::cout << "Filter: " << *is_filtered << std::endl;
+		*laplace_is_filtered = !*laplace_is_filtered;
 	}
 	// Keybinds
 	if (key == GLFW_KEY_P && action == GLFW_PRESS)
 	{
-        is_wireframe = !is_wireframe;
-        if (is_wireframe)
+        laplace_is_wireframe = !laplace_is_wireframe;
+        if (laplace_is_wireframe)
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         else
 		    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -101,9 +90,9 @@ void processInput(GLFWwindow* window, Camera* camera)
 }
 
 void processCallbacks(GLFWwindow* window, Camera* camera, CameraPos* cameraPos, bool* isFiltered){
-    cam = camera;
-    camPos = cameraPos;
-    is_filtered = isFiltered;
+    laplace_cam = camera;
+    laplace_cam_pos = cameraPos;
+    laplace_is_filtered = isFiltered;
 
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
