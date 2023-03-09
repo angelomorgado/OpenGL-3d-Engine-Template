@@ -1,0 +1,71 @@
+#version 460 core
+
+layout (local_size_x = 64) in;
+
+layout(std430, binding = 0) buffer _vertexPosition {
+    vec4 vertexPosition[];
+};
+layout(std430, binding = 1) buffer _vertexSize{
+    float vertexSize[];
+};
+layout(std430, binding = 2) buffer _vertexRadius{
+    float vertexRadius[];
+};
+layout(binding = 3, std430) buffer _vertexColor{
+    vec4 vertexColor[];
+};
+layout(std430, binding = 4) buffer _vertexVelocity{
+    vec4 vertexVelocity[];
+};
+layout(std430, binding = 5) buffer _vertexMass{
+    float vertexMass[];
+};
+
+// Uniforms
+uniform float deltaTime;
+uniform float forceMultiplier;
+uniform float massMultiplier;
+
+// Constants
+const float G = 6.67408e-11;
+
+vec3 getGravitationalForce(vec3 r, float m1, float m2)
+{
+    float d = length(r);
+    float inv_d = 1.0 / d;
+    r *= inv_d ;
+
+    // Calculate the gravitational force
+    vec3 Gforce = (G * m1 * m2 * massMultiplier) * ( inv_d * inv_d ) * r;
+
+    return Gforce;
+}
+
+void main()
+{ 
+    uint id = gl_GlobalInvocationID.x;
+    
+    vec3 Fe = vec3(0.0);
+
+    for(int i = 0; i < vertexPosition.length(); i++)
+    {
+        if (id == i)
+        {
+            continue;
+        }
+        
+        vec3 r = vertexPosition[i].xyz - vertexPosition[id].xyz;
+
+        // vec4 Gforce = getGravitationalForce(r, vertexMass[i], vertexMass[id]);
+        vec3 Gforce = getGravitationalForce(r, vertexMass[i], vertexMass[id]) * forceMultiplier;
+
+        // Calculate the gravitational force
+        Fe += Gforce;
+    }   
+
+    // Update the velocity while keeping inertia
+    vertexVelocity[id].xyz += Fe / vertexMass[id] * deltaTime;
+
+    // Calculate the new position
+    vertexPosition[id].xyz += vertexVelocity[id].xyz;
+}

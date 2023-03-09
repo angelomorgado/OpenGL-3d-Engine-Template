@@ -1,0 +1,56 @@
+#version 460 core
+
+layout (local_size_x = 64) in;
+
+layout(std430, binding = 0) buffer _vertexPosition {
+    vec4 vertexPosition[];
+};
+layout(std430, binding = 1) buffer _vertexSize{
+    float vertexSize[];
+};
+layout(std430, binding = 2) buffer _vertexRadius{
+    float vertexRadius[];
+};
+layout(binding = 3, std430) buffer _vertexColor{
+    vec4 vertexColor[];
+};
+layout(std430, binding = 4) buffer _vertexVelocity{
+    vec4 vertexVelocity[];
+};
+layout(std430, binding = 5) buffer _vertexMass{
+    float vertexMass[];
+};
+
+// #-------------Spiral Motion------------#
+
+// variables a and b control the shape of the spiral
+// a == b => perfect circle | a > b ==> stretch horizontally | a < b ==> stretch vertically
+float a = 4.0;
+float b = 4.0;
+
+void spiral(uint id)
+{
+   // spiral equation: x = a * cos(angle), y = b * sin(angle)
+
+   // calculate the angle based on the arctan of y and x coordinates of the particles
+   // convertion of the particle's velocity from degrees to radians
+   // add the velocity of the particle to the angle value
+    float angle = atan(vertexPosition[id].y, vertexPosition[id].x) + vertexVelocity[id].x * acos(-1) / 180;
+
+   // application of the spiral motion equation 
+    vertexPosition[id].x = a*cos(angle);
+    vertexPosition[id].y = b*sin(angle);
+    vertexVelocity[id].xy = vec2(0.2,0.2);
+}
+
+// #--------------------------------------#
+
+void main()
+{ 
+    uint id = gl_GlobalInvocationID.x;
+    // change the color of the particle to a random color
+    vertexColor[id] = vec4(sin(vertexPosition[id].x), cos(vertexPosition[id].y), sin(vertexPosition[id].z), 1.0);
+
+    // Spiral Motion Implementation
+    spiral(id);
+}
