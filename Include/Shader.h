@@ -21,7 +21,6 @@ class Shader
 {
     public:
         // Constructors
-        Shader();
         Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr); // Geometry shader is optional
 
         // Public attributes

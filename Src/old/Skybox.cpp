@@ -6,6 +6,10 @@ Skybox::Skybox(std::string texturePath) {
 	loadSkybox();
 }
 
+Skybox::Skybox() 
+{
+}
+
 void Skybox::updateFaces() {
 	faces = {
 		texturePath + "right.png",

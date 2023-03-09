@@ -3,6 +3,11 @@
 
         - It implements a class that stores all the information related to all particles, including their position, velocity, mass, etc.
 */
+#pragma once
+
+#ifndef PARTICLES_H
+#define PARTICLES_H
+
 #include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -14,25 +19,16 @@
 #include <Camera.h>
 #include <Scene.h>
 #include <Textures.h>
+#include <ParticleType.h>
 
-struct Particle
-{
-    glm::vec3 position;
-    glm::vec3 velocity;
-    float mass;
-    float radius;
-    glm::vec4 color;
-    float size;
-    glm::vec4 texCoords;
 
-    // Constructor
-    Particle() : position(0.0f), velocity(0.0f), mass(0.0f), radius(0.0f), color(1.0f), size(0.2f), texCoords(0.0f) { }
-};
 
 class Particles 
 {
 public:
-    Particles(GLuint nParticles = 1000, float minMass = 0.1f, float maxMass = 1.0f, float minRadius = 0.1f, float maxRadius = 1.5f, float minSpeed = 0.0f, float maxSpeed = 1.0f, float minSize = 0.5f, float maxSize = 2.0f);
+    Particles(GLuint nParticles, std::string texture_path, std::string point_cloud_path[2], float minMass, float maxMass, float minRadius, float maxRadius, float minSpeed, float maxSpeed, float minSize, float maxSize);
+    Particles(GLuint nParticles, std::string texture_path);
+    Particles(GLuint nParticles, std::string texture_path, float minMass, float maxMass, float minRadius, float maxRadius, float minSpeed, float maxSpeed, float minSize, float maxSize);
 
     // Draw one particle according to its index in the VAO and its characteristics
     void Draw(Shader shader, Camera camera);
@@ -40,29 +36,41 @@ public:
 private:
     // Attributes
     GLuint nParticles;
-    std::vector<Particle> particles;
 
     // Attributes
-    std::vector<glm::vec3> positions;
-    std::vector<glm::vec3> velocities;
+    std::vector<glm::vec4> positions;
+    std::vector<glm::vec4> positions_2;
+    std::vector<glm::vec4> positions_3;
+    std::vector<glm::vec4> velocities;
     std::vector<float> masses;
     std::vector<float> radiuses;
-    std::vector<glm::vec3> colors;
+    std::vector<glm::vec4> colors;
+    std::vector<glm::vec4> colors_2;
+    std::vector<glm::vec4> colors_3;
     std::vector<float> sizes;
     GLuint spriteTexture;
+    Texture *texture;
 
     // Buffers
     GLuint positionBuffer;
+    GLuint position_2Buffer;
+    GLuint position_3Buffer;
     GLuint velocityBuffer;
     GLuint massBuffer;
     GLuint radiusBuffer;
     GLuint colorBuffer;
+    GLuint color_2Buffer;
+    GLuint color_3Buffer;
     GLuint sizeBuffer;
-
 
     // VAO
     GLuint VAO;
 
     // Functions
-    void getSpriteTexture();
+    void getSpriteTexture(char* texture_path);
+    void generateValues(GLuint nParticles, float minMass, float maxMass, float minRadius, float maxRadius, float minSpeed, float maxSpeed, float minSize, float maxSize, bool sphere);
+    void groupValues();
+    void transferDataToGPU();
 };
+
+#endif

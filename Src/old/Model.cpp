@@ -1,20 +1,12 @@
 #include "Model.h"
 
+Model::Model()
+{
+}
+
 Model::Model(string const& path, bool gamma) : gammaCorrection(gamma)
 {
     loadModel(path);
-}
-
-void Model::Draw(Shader& shader, Material material)
-{
-    shader.use();
-    shader.setVec3("material.ambient", material.Ambient);
-    shader.setVec3("material.diffuse", material.Diffuse);
-    shader.setVec3("material.specular", material.Specular);
-    shader.setFloat("material.shininess", material.Shininess);
-
-    for (GLuint i = 0; i < meshes.size(); i++)
-        meshes[i].Draw(shader);
 }
 
 void Model::Draw(Shader& shader)

@@ -46,12 +46,12 @@ class Model
 
 	    //================ Methods =====================
         // constructor, expects a filepath to a 3D model.
-        Model();
         Model(string const& path, bool gamma = false);
 
         // draws the model, and thus all its meshes
         void Draw(Shader& shader);
-	
+        void Draw(Shader& shader, Material material);
+        
         // change the diffuse texture of all meshes in the model
         void changeTexture(const char* name, string dir);
 
