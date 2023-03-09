@@ -53,13 +53,3 @@ void printGPUinfo() {
 	std::cout << "Renderer: " << glGetString(GL_RENDERER) << std::endl;
 	std::cout << "=======================================================================\n";
 }
-
-GLFWwindow* setupWindow(const char* title)
-{
-    glfw_setup();
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, title, NULL, NULL);
-    window_setup(window);
-    glad_setup();
-	printGPUinfo();
-	return window;
-}

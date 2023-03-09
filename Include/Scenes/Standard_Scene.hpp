@@ -1,6 +1,4 @@
 #pragma once
-#ifndef LAPLACIAN_SCENE_H
-#define LAPLACIAN_SCENE_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -20,7 +18,7 @@
 #include <iostream>
 #include <thread>
 
-class Laplacian_Edge_Detection
+class Standard_Scene
 {
 public:
     GLFWwindow* window;
@@ -28,7 +26,7 @@ public:
     CameraPos cameraPos;
     bool is_filtered;
 
-    Laplacian_Edge_Detection();
+    Standard_Scene();
     void setupScene(GLFWwindow* window);
     void renderScene();
 private:
@@ -37,30 +35,19 @@ private:
     glm::vec3 cameraInitialTarget;
 
     // File paths
-    const char* cubePath = "Media/Objects/Pyramid/pyramid.obj";
-    const char* skullPath = "Media/Objects/Skull/Skull.obj";
-    const char* alienPath = "Media/Objects/Alien/alien.obj";
     const char* planePath = "Media/Objects/Plane/plane.obj";
     const char* skyboxPath = "Media/Skyboxes/skybox_galaxy/";
 
     // Shaders
     Shader* objectShader;
     Shader* skyboxShader;
-    Shader* screenShader;
-    Shader* screenShader_noFilter;
 
     // Models
     Skybox* skybox;
-    Model* cube;
-    Model* skull;
-    Model* alien;
     Model* plane;
 
     // Textures and materials
     Material default_mat;
-
-    // Framebuffers
-    Framebuffer* framebuffer;
 
     // Extra variables
     bool is_wireframe;
@@ -72,5 +59,3 @@ private:
     void setupLightingAndMaterials();
     void setupCamera();
 };
-
-#endif
