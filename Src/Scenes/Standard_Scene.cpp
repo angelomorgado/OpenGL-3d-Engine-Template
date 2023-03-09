@@ -1,10 +1,10 @@
-#include <Scenes/Laplacian_Edge_Detection.hpp>
+#include <Scenes/Standard_Scene.hpp>
 
-Laplacian_Edge_Detection::Laplacian_Edge_Detection()
+Standard_Scene::Standard_Scene()
 {
 }
 
-void Laplacian_Edge_Detection::setupScene(GLFWwindow* window)
+void Standard_Scene::setupScene(GLFWwindow* window)
 {
     // Extra variables initialization
     this->window = window;
@@ -20,13 +20,10 @@ void Laplacian_Edge_Detection::setupScene(GLFWwindow* window)
     setupCamera();
 }
 
-void Laplacian_Edge_Detection::renderScene()
+void Standard_Scene::renderScene()
 {
     // Update camera delta time
     camera.updateDeltaTime();
-
-    // Bind to framebuffer
-    framebuffer->bind();
 
     // Clear the screen
     glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
@@ -37,34 +34,6 @@ void Laplacian_Edge_Detection::renderScene()
     objectShader->use();
     setView(objectShader, camera.GetViewMatrix());
     setProjection(objectShader, glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-    setModel(
-        objectShader, // shader
-        glm::vec3(0.0f,0.5f,0.0f), // translation
-        glm::vec3(0.0f, 1.0f, 0.0f), // rotation axis
-        0.0f,//(float)glfwGetTime() * 2.5f, // rotation angle
-        glm::vec3(1.0f) // scale
-        );
-    cube->Draw(*objectShader);
-
-    // Skull  
-    setModel(
-        objectShader, // shader
-        glm::vec3(2.0f,2.0f, 2.0f), // translation
-        glm::vec3(1.0f, 0.0f, 0.0f), // rotation axis
-        -90.0f,//(float)glfwGetTime() * 2.5f, // rotation angle
-        glm::vec3(0.05f) // scale
-    );
-    skull->Draw(*objectShader);
-
-    // Alien  
-    setModel(
-        objectShader, // shader
-        glm::vec3(-2.0f, 1.0f, -2.0f), // translation
-        glm::vec3(1.0f, 0.0f, 0.0f), // rotation axis
-        0.0f,//(float)glfwGetTime() * 2.5f, // rotation angle
-        glm::vec3(0.5f) // scale
-    );
-    alien->Draw(*objectShader);
     
     // Plane  
     setModel(
@@ -83,47 +52,30 @@ void Laplacian_Edge_Detection::renderScene()
     // Skybox 
     skybox->Draw(*skyboxShader, camera);
 
-    // Bind to default framebuffer
-    framebuffer->unbind();
-
-    // Draw quad using the framebuffer texture
-    if (is_filtered) {
-        framebuffer->drawQuad(*screenShader_noFilter);
-    }
-    else {
-        framebuffer->drawQuad(*screenShader);
-    }
-
     // Swap the buffers
     glfwSwapBuffers(window);
     glfwPollEvents();
 }
 
-void Laplacian_Edge_Detection::loadModels()
+void Standard_Scene::loadModels()
 {
-    cube = new Model(cubePath);
-    cube->changeTexture("random.jpg", "Media/Textures");
     plane = new Model(planePath);
     plane->changeTexture("wood_floor.png", "Media/Textures");
-    skull = new Model(skullPath);
-    alien = new Model(alienPath);
     skybox = new Skybox(skyboxPath);
 }
 
-void Laplacian_Edge_Detection::loadShaders()
+void Standard_Scene::loadShaders()
 {
     objectShader = new Shader("Shaders/targetShader.vert", "Shaders/targetShader.frag");
     skyboxShader = new Shader("Shaders/skyboxShader.vert", "Shaders/skyboxShader.frag");
-    screenShader = new Shader("Shaders/Screen/simpleScreen.vert", "Shaders/Screen/laplacian_edge_detection_filter.frag");
-    screenShader_noFilter = new Shader("Shaders/Screen/simpleScreen.vert", "Shaders/Screen/simpleScreen.frag");
 }
 
-void Laplacian_Edge_Detection::loadFramebuffers()
+void Standard_Scene::loadFramebuffers()
 {
-    framebuffer = new Framebuffer();
+    // framebuffer = new Framebuffer();
 }
 
-void Laplacian_Edge_Detection::setupLightingAndMaterials()
+void Standard_Scene::setupLightingAndMaterials()
 {
     // Target shader
     objectShader->use();
@@ -141,7 +93,7 @@ void Laplacian_Edge_Detection::setupLightingAndMaterials()
     default_mat.Shininess = 0.6f;
 }
 
-void Laplacian_Edge_Detection::setupCamera()
+void Standard_Scene::setupCamera()
 {
     camera = Camera(
         cameraInitialPos,

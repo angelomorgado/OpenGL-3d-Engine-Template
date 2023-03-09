@@ -22,5 +22,6 @@ void glfw_setup();
 void window_setup(GLFWwindow* window);
 void glad_setup();
 void printGPUinfo();
+GLFWwindow* setupWindow(const char* title);
 
 #endif
