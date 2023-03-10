@@ -21,9 +21,9 @@ enum Scene_type
 int main()
 {
     // Setup window
-    GLFWwindow* window = setupWindow("Hello!");
+    GLFWwindow* window = setupWindow("Play window");
 
-    Procedural_Terrain_Generation scene;
+    Procedural_Terrain_Generation_Scene scene;
     scene.setupScene(window);
 
     processCallbacks(scene.window, &(scene.camera), &(scene.cameraPos), &(scene.is_filtered));

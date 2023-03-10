@@ -18,7 +18,7 @@
 #include <iostream>
 #include <thread>
 
-class Procedural_Terrain_Generation
+class Procedural_Terrain_Generation_Scene
 {
 public:
     GLFWwindow* window;
@@ -26,7 +26,7 @@ public:
     CameraPos cameraPos;
     bool is_filtered;
 
-    Procedural_Terrain_Generation();
+    Procedural_Terrain_Generation_Scene();
     void setupScene(GLFWwindow* window);
     void renderScene();
 private:
