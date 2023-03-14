@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef CALLBACKS_LAPLACE_H
-#define CALLBACKS_LAPLACE_H
+#ifndef CALLBACKS_STANDARD_H
+#define CALLBACKS_STANDARD_H
 
 #include <Camera.hpp>
 #include <Utils.hpp>

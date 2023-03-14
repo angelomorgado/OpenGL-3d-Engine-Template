@@ -1,5 +1,7 @@
 #include <Scenes/Procedural_Terrain_Generation.hpp>
 
+// TODO: Fazer as cenas da parte do CPU todas :)
+
 Procedural_Terrain_Generation_Scene::Procedural_Terrain_Generation_Scene()
 {
 }
@@ -40,7 +42,7 @@ void Procedural_Terrain_Generation_Scene::renderScene()
         objectShader, // shader
         glm::vec3(0.0f), // translation
         glm::vec3(0.0f, 1.0f, 0.0f), // rotation axis
-        0.0f,//(float)glfwGetTime() * 2.5f, // rotation angle
+        0.0f, // rotation angle
         glm::vec3(1.0f) // scale
     );
     objectShader->setVec3("material.ambient", default_mat.Ambient);

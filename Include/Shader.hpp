@@ -21,7 +21,7 @@ class Shader
 {
     public:
         // Constructors
-        Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr); // Geometry shader is optional
+        Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr, const char* tessControlPath = nullptr, const char* tessEvalPath = nullptr); // Geometry and Tessellation shaders are optional
 
         // Public attributes
         unsigned int ID;
