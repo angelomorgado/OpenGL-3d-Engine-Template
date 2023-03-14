@@ -84,9 +84,14 @@ void processInput(GLFWwindow* window, Camera* camera)
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
         camera->ProcessKeyboard(UP, camera->deltaTime);
 
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+        camera->MovementSpeed = EXTRA_SPEED;
+    else
+        camera->MovementSpeed = SPEED;
+    
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
         camera->ProcessKeyboard(DOWN, camera->deltaTime);
-
+    
 }
 
 void processCallbacks(GLFWwindow* window, Camera* camera, CameraPos* cameraPos, bool* isFiltered){

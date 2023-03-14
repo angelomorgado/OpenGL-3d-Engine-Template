@@ -27,14 +27,15 @@ public:
 
 	Texture();
 
-	void setParameters(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter , int colorModel , int textureNumber);
+	void setParameters(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter , int colorModel);
 	void bind();
 	void loadTexture();
 	int getHeight();
 	int getWidth();
 	int getNChannels();
 
-	int textureNumber;
+	static int textureNumber;
+
 
 private:
 	unsigned int id;

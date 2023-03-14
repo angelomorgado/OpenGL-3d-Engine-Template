@@ -37,6 +37,7 @@ private:
 
     // File paths
     const char* planePath = "Media/Objects/Plane/plane.obj";
+    const char* cubePath = "Media/Objects/Cube/cube.obj";
     const char* skyboxPath = "Media/Skyboxes/skybox_sky/";
     const char* heightmapPath = "Media/Textures/Heightmaps/peninsula.png";
 
@@ -48,6 +49,7 @@ private:
     // Models
     Skybox* skybox;
     Model* plane;
+    Model* cube;
     Terrain* terrain;
 
     // Textures and materials

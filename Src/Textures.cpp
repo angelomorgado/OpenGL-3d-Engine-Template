@@ -1,5 +1,8 @@
 #include <Textures.hpp>
 
+// Initialize the texture counter
+int Texture::textureNumber = GL_TEXTURE0;
+
 Texture::Texture(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter , int colorModel , int textureNumber) 
 {
     this->id = 0;
@@ -9,7 +12,7 @@ Texture::Texture(std::string texturePath, int wrapS, int wrapT , int minFilter ,
     this->minFilter = minFilter;
     this->magFilter = magFilter;
     this->colorModel = colorModel;
-    this->textureNumber = textureNumber;
+    this->textureNumber++;
     loadTexture();
 }
 
@@ -24,7 +27,7 @@ Texture::Texture(std::vector<std::string> cubemapFaces, int wrapS , int wrapT , 
     this->minFilter = minFilter;
     this->magFilter = magFilter;
     this->colorModel = colorModel;
-    this->textureNumber = textureNumber;
+    this->textureNumber++;
     loadCubemap();
 }
 
@@ -90,11 +93,11 @@ void Texture::loadCubemap() {
 
 void Texture::bind()
 {
-    glActiveTexture(textureNumber);
     glBindTexture(GL_TEXTURE_2D, id);
+    glActiveTexture(textureNumber);
 }
 
-void Texture::setParameters(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter , int colorModel , int textureNumber)
+void Texture::setParameters(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter , int colorModel)
 {
     this->id = 0;
     this->texturePath = texturePath;
@@ -104,7 +107,7 @@ void Texture::setParameters(std::string texturePath, int wrapS, int wrapT , int 
     this->minFilter = minFilter;
     this->magFilter = magFilter;
     this->colorModel = colorModel;
-    this->textureNumber = textureNumber;
+    this->textureNumber++;
 }
 
 int Texture::getHeight()

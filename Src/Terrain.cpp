@@ -15,14 +15,14 @@ Terrain::Terrain(const char* filePath, Shader* terrainShader)
 
 void Terrain::readData(const char* filePath, Shader* terrainShader)
 {
-    texture.setParameters(filePath, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_RGBA, 0);
+    texture.setParameters(filePath, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_RGBA);
     texture.loadTexture();
 
     this->height = texture.getHeight();
     this->width = texture.getWidth();
     this->nChannels = texture.getNChannels();
     
-    terrainShader->setInt("heightMap", 0);
+    terrainShader->setInt("heightMap", texture.textureNumber);
     std::cout << "Loaded heightmap of size " << height << " x " << width << std::endl;
 
     initializeVertices();
@@ -97,6 +97,8 @@ void Terrain::draw(Shader* terrainShader, Camera camera)
     glm::mat4 view = camera.GetViewMatrix();
     terrainShader->setMat4("projection", projection);
     terrainShader->setMat4("view", view);
+
+    texture.bind();
 
     // world transformation
     glm::mat4 model = glm::mat4(1.0f);
