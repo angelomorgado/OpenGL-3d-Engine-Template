@@ -52,7 +52,7 @@ void Texture::loadTexture() {
     }
     else
     {
-        std::cout << "Failed to load texture " << texturePath << std::endl;
+        std::cout << "Failed to load texture!!!! " << texturePath << std::endl;
     }
 
     stbi_image_free(data);
@@ -97,6 +97,7 @@ void Texture::bind()
 void Texture::setParameters(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter , int colorModel , int textureNumber)
 {
     this->id = 0;
+    this->texturePath = texturePath;
     this->cubemapFaces = cubemapFaces;
     this->wrapS = wrapS;
     this->wrapT = wrapT;

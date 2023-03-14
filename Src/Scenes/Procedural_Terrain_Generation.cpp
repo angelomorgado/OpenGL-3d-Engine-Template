@@ -12,11 +12,11 @@ void Procedural_Terrain_Generation_Scene::setupScene(GLFWwindow* window)
     this->window = window;
     is_filtered = false;
     is_wireframe = false;
-    cameraInitialPos = glm::vec3(-1.99221f, 1.42674f, 5.2215f);
+    cameraInitialPos = glm::vec3(-1.99221f, 50.42674f, 5.2215f);
 	cameraInitialTarget = glm::vec3(7.0f, 2.0f, 0.0f);
     
-    loadModels();
     loadShaders();
+    loadModels();
     loadFramebuffers();
     setupLightingAndMaterials();
     setupCamera();
@@ -33,23 +33,25 @@ void Procedural_Terrain_Generation_Scene::renderScene()
 
     // Draw the objects
     // Pyramid  
-    objectShader->use();
-    setView(objectShader, camera.GetViewMatrix());
-    setProjection(objectShader, glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+    // objectShader->use();
+    // setView(objectShader, camera.GetViewMatrix());
+    // setProjection(objectShader, glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
     
-    // Plane  
-    setModel(
-        objectShader, // shader
-        glm::vec3(0.0f), // translation
-        glm::vec3(0.0f, 1.0f, 0.0f), // rotation axis
-        0.0f, // rotation angle
-        glm::vec3(1.0f) // scale
-    );
-    objectShader->setVec3("material.ambient", default_mat.Ambient);
-    objectShader->setVec3("material.diffuse", default_mat.Diffuse);
-    objectShader->setVec3("material.specular", default_mat.Specular);
-    objectShader->setFloat("material.shininess", default_mat.Shininess);
-    plane->Draw(*objectShader);
+    // // Plane  
+    // setModel(
+    //     objectShader, // shader
+    //     glm::vec3(0.0f), // translation
+    //     glm::vec3(0.0f, 1.0f, 0.0f), // rotation axis
+    //     0.0f, // rotation angle
+    //     glm::vec3(1.0f) // scale
+    // );
+    // objectShader->setVec3("material.ambient", default_mat.Ambient);
+    // objectShader->setVec3("material.diffuse", default_mat.Diffuse);
+    // objectShader->setVec3("material.specular", default_mat.Specular);
+    // objectShader->setFloat("material.shininess", default_mat.Shininess);
+    // plane->Draw(*objectShader);
+
+    terrain->draw(terrainShader, camera);
     
     // Skybox 
     skybox->Draw(*skyboxShader, camera);
@@ -61,9 +63,12 @@ void Procedural_Terrain_Generation_Scene::renderScene()
 
 void Procedural_Terrain_Generation_Scene::loadModels()
 {
-    plane = new Model(planePath);
-    plane->changeTexture("wood_floor.png", "Media/Textures");
+    // plane = new Model(planePath);
+    // plane->changeTexture("wood_floor.png", "Media/Textures");
     skybox = new Skybox(skyboxPath);
+
+    // Setup terrain
+    terrain = new Terrain(heightmapPath, terrainShader);
 }
 
 void Procedural_Terrain_Generation_Scene::loadShaders()
