@@ -22,7 +22,7 @@
 // Camera
 #define YAW -90.0f
 #define PITCH 0.0f
-#define SPEED 1.00f
+#define SPEED 3.00f
 #define EXTRA_SPEED 10.0f
 #define SENSITIVITY 0.1f
 #define ZOOM 60.0f
