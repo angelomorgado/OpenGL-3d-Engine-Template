@@ -1,5 +1,5 @@
 /*
-    Framebuffer.h:
+    Framebuffer.hpp:
 
         - It implements a framebuffer object that can be used to render to a texture.
         - It also implements a quad that can be used to draw the texture to the screen.
@@ -15,8 +15,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-#include <Utils.h>
-#include <Shader.h>
+#include <Utils.hpp>
+#include <Shader.hpp>
 
 struct Framebuffer_obj{
 	GLuint fbo;

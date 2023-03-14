@@ -1,4 +1,4 @@
-#include "Textures.h"
+#include <Textures.hpp>
 
 Texture::Texture(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter , int colorModel , int textureNumber) 
 {

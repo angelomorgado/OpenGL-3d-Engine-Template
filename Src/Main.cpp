@@ -10,7 +10,7 @@
 #include "stb_image.h"
 
 #include <iostream>
-#include <Configuration.h>
+#include <Configuration.hpp>
 
 enum Scene_type
 {

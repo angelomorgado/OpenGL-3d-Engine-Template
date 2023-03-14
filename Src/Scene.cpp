@@ -1,4 +1,4 @@
-#include "Scene.h"
+#include <Scene.hpp>
 
 void setProjection(Shader* shader, float fov, float aspectRatio, float nearLimit, float farLimit) {
     glm::mat4 projection = glm::perspective(fov, aspectRatio, nearLimit, farLimit);

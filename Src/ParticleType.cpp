@@ -1,4 +1,4 @@
-#include <ParticleType.h>
+#include <ParticleType.hpp>
 
 ParticleType getParticleA()
 {

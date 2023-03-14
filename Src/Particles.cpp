@@ -1,4 +1,4 @@
-#include <Particles.h>
+#include <Particles.hpp>
 
 std::vector<std::vector<glm::vec4>> readData(const std::string &fileName)
 {

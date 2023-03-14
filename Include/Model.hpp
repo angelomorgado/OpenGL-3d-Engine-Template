@@ -12,9 +12,9 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include <Mesh.h>
-#include <Shader.h>
-#include <Utils.h>
+#include <Mesh.hpp>
+#include <Shader.hpp>
+#include <Utils.hpp>
 
 #include <string>
 #include <fstream>
