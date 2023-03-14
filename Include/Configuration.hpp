@@ -13,8 +13,8 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <iostream>
-#include <Camera.h>
-#include <Utils.h>
+#include <Camera.hpp>
+#include <Utils.hpp>
 
 //void processInput(GLFWwindow* window, Camera* camera);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);

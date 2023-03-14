@@ -1,10 +1,10 @@
 #include <Scenes/Procedural_Terrain_Generation.hpp>
 
-Procedural_Terrain_Generation::Procedural_Terrain_Generation()
+Procedural_Terrain_Generation_Scene::Procedural_Terrain_Generation_Scene()
 {
 }
 
-void Procedural_Terrain_Generation::setupScene(GLFWwindow* window)
+void Procedural_Terrain_Generation_Scene::setupScene(GLFWwindow* window)
 {
     // Extra variables initialization
     this->window = window;
@@ -20,7 +20,7 @@ void Procedural_Terrain_Generation::setupScene(GLFWwindow* window)
     setupCamera();
 }
 
-void Procedural_Terrain_Generation::renderScene()
+void Procedural_Terrain_Generation_Scene::renderScene()
 {
     // Update camera delta time
     camera.updateDeltaTime();
@@ -57,25 +57,25 @@ void Procedural_Terrain_Generation::renderScene()
     glfwPollEvents();
 }
 
-void Procedural_Terrain_Generation::loadModels()
+void Procedural_Terrain_Generation_Scene::loadModels()
 {
     plane = new Model(planePath);
     plane->changeTexture("wood_floor.png", "Media/Textures");
     skybox = new Skybox(skyboxPath);
 }
 
-void Procedural_Terrain_Generation::loadShaders()
+void Procedural_Terrain_Generation_Scene::loadShaders()
 {
     objectShader = new Shader("Shaders/targetShader.vert", "Shaders/targetShader.frag");
     skyboxShader = new Shader("Shaders/skyboxShader.vert", "Shaders/skyboxShader.frag");
 }
 
-void Procedural_Terrain_Generation::loadFramebuffers()
+void Procedural_Terrain_Generation_Scene::loadFramebuffers()
 {
     // framebuffer = new Framebuffer();
 }
 
-void Procedural_Terrain_Generation::setupLightingAndMaterials()
+void Procedural_Terrain_Generation_Scene::setupLightingAndMaterials()
 {
     // Target shader
     objectShader->use();
@@ -93,7 +93,7 @@ void Procedural_Terrain_Generation::setupLightingAndMaterials()
     default_mat.Shininess = 0.6f;
 }
 
-void Procedural_Terrain_Generation::setupCamera()
+void Procedural_Terrain_Generation_Scene::setupCamera()
 {
     camera = Camera(
         cameraInitialPos,

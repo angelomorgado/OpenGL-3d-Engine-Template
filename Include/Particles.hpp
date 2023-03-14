@@ -15,11 +15,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <Shader.h>
-#include <Camera.h>
-#include <Scene.h>
-#include <Textures.h>
-#include <ParticleType.h>
+#include <Shader.hpp>
+#include <Camera.hpp>
+#include <Scene.hpp>
+#include <Textures.hpp>
+#include <ParticleType.hpp>
 
 
 

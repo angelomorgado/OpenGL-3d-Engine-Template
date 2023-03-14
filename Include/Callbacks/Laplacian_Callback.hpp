@@ -3,9 +3,9 @@
 #ifndef CALLBACKS_LAPLACE_H
 #define CALLBACKS_LAPLACE_H
 
-#include <Camera.h>
-#include <Utils.h>
-#include <Skybox.h>
+#include <Camera.hpp>
+#include <Utils.hpp>
+#include <Skybox.hpp>
 #include <GLFW/glfw3.h>
 #include <iostream>
 

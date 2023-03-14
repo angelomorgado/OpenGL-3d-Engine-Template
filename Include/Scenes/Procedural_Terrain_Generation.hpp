@@ -6,19 +6,19 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Shader.h"
-#include "Camera.h"
-#include "Utils.h"
-#include "Scene.h"
-#include "Textures.h"
-#include "Model.h"
-#include "Skybox.h"
-#include "Framebuffer.h"
+#include <Shader.hpp>
+#include <Camera.hpp>
+#include <Utils.hpp>
+#include <Scene.hpp>
+#include <Textures.hpp>
+#include <Model.hpp>
+#include <Skybox.hpp>
+#include <Framebuffer.hpp>
 
 #include <iostream>
 #include <thread>
 
-class Procedural_Terrain_Generation
+class Procedural_Terrain_Generation_Scene
 {
 public:
     GLFWwindow* window;
@@ -26,7 +26,7 @@ public:
     CameraPos cameraPos;
     bool is_filtered;
 
-    Procedural_Terrain_Generation();
+    Procedural_Terrain_Generation_Scene();
     void setupScene(GLFWwindow* window);
     void renderScene();
 private:

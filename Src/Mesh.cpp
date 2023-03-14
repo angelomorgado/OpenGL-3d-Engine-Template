@@ -1,4 +1,4 @@
-#include "Mesh.h"
+#include <Mesh.hpp>
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<TextureMesh> textures) {
 	this->vertices = vertices;

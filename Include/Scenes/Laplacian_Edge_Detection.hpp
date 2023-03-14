@@ -8,14 +8,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Shader.h"
-#include "Camera.h"
-#include "Utils.h"
-#include "Scene.h"
-#include "Textures.h"
-#include "Model.h"
-#include "Skybox.h"
-#include "Framebuffer.h"
+#include <Shader.hpp>
+#include <Camera.hpp>
+#include <Utils.hpp>
+#include <Scene.hpp>
+#include <Textures.hpp>
+#include <Model.hpp>
+#include <Skybox.hpp>
+#include <Framebuffer.hpp>
 
 #include <iostream>
 #include <thread>
