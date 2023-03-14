@@ -4,7 +4,7 @@
 #include <Scenes/Procedural_Terrain_Generation.hpp>
 
 // Include Callbacks
-#include <Callbacks/Laplacian_Callback.hpp>
+#include <Callbacks/Standard_Callback.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"

@@ -14,6 +14,7 @@
 #include <Model.hpp>
 #include <Skybox.hpp>
 #include <Framebuffer.hpp>
+#include <Terrain.hpp>
 
 #include <iostream>
 #include <thread>
@@ -36,15 +37,20 @@ private:
 
     // File paths
     const char* planePath = "Media/Objects/Plane/plane.obj";
-    const char* skyboxPath = "Media/Skyboxes/skybox_galaxy/";
+    const char* cubePath = "Media/Objects/Cube/cube.obj";
+    const char* skyboxPath = "Media/Skyboxes/skybox_sky/";
+    const char* heightmapPath = "Media/Textures/Heightmaps/peninsula.png";
 
     // Shaders
     Shader* objectShader;
     Shader* skyboxShader;
+    Shader* terrainShader;
 
     // Models
     Skybox* skybox;
     Model* plane;
+    Model* cube;
+    Terrain* terrain;
 
     // Textures and materials
     Material default_mat;

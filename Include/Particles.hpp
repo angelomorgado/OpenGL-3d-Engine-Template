@@ -1,5 +1,5 @@
 /*
-    Particles.h:
+    Particles.hpp:
 
         - It implements a class that stores all the information related to all particles, including their position, velocity, mass, etc.
 */
@@ -20,8 +20,6 @@
 #include <Scene.hpp>
 #include <Textures.hpp>
 #include <ParticleType.hpp>
-
-
 
 class Particles 
 {

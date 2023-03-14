@@ -1,5 +1,6 @@
 #include <Particles.hpp>
 
+// Auxiliary function to read a point cloud file
 std::vector<std::vector<glm::vec4>> readData(const std::string &fileName)
 {
     std::vector<glm::vec4> positions, colors;

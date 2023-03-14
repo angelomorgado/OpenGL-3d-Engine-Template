@@ -1,5 +1,8 @@
 #include <Textures.hpp>
 
+// Initialize the texture counter
+int Texture::textureNumber = GL_TEXTURE0;
+
 Texture::Texture(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter , int colorModel , int textureNumber) 
 {
     this->id = 0;
@@ -9,9 +12,11 @@ Texture::Texture(std::string texturePath, int wrapS, int wrapT , int minFilter ,
     this->minFilter = minFilter;
     this->magFilter = magFilter;
     this->colorModel = colorModel;
-    this->textureNumber = textureNumber;
+    this->textureNumber++;
     loadTexture();
 }
+
+Texture::Texture(){}
 
 Texture::Texture(std::vector<std::string> cubemapFaces, int wrapS , int wrapT , int minFilter , int magFilter , int colorModel , int textureNumber)
 {
@@ -22,7 +27,7 @@ Texture::Texture(std::vector<std::string> cubemapFaces, int wrapS , int wrapT , 
     this->minFilter = minFilter;
     this->magFilter = magFilter;
     this->colorModel = colorModel;
-    this->textureNumber = textureNumber;
+    this->textureNumber++;
     loadCubemap();
 }
 
@@ -50,7 +55,7 @@ void Texture::loadTexture() {
     }
     else
     {
-        std::cout << "Failed to load texture " << texturePath << std::endl;
+        std::cout << "Failed to load texture!!!! " << texturePath << std::endl;
     }
 
     stbi_image_free(data);
@@ -88,6 +93,34 @@ void Texture::loadCubemap() {
 
 void Texture::bind()
 {
-    glActiveTexture(textureNumber);
     glBindTexture(GL_TEXTURE_2D, id);
+    glActiveTexture(textureNumber);
+}
+
+void Texture::setParameters(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter , int colorModel)
+{
+    this->id = 0;
+    this->texturePath = texturePath;
+    this->cubemapFaces = cubemapFaces;
+    this->wrapS = wrapS;
+    this->wrapT = wrapT;
+    this->minFilter = minFilter;
+    this->magFilter = magFilter;
+    this->colorModel = colorModel;
+    this->textureNumber++;
+}
+
+int Texture::getHeight()
+{
+    return this->height;
+}
+
+int Texture::getWidth()
+{
+    return this->width;
+}
+
+int Texture::getNChannels()
+{
+    return this->nrChannels;
 }
