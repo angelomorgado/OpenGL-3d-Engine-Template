@@ -25,7 +25,15 @@ public:
 
 	Texture(std::vector<std::string> cubemapFaces, int wrapS = GL_REPEAT, int wrapT = GL_REPEAT, int minFilter = GL_NEAREST, int magFilter = GL_NEAREST, int colorModel = GL_RGBA, int textureNumber = GL_TEXTURE0);
 
+	Texture();
+
+	void setParameters(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter , int colorModel , int textureNumber);
 	void bind();
+	void loadTexture();
+	int getHeight();
+	int getWidth();
+	int getNChannels();
+
 	int textureNumber;
 
 private:
@@ -41,7 +49,6 @@ private:
 	int width;
 	int height;
 	int nrChannels;
-	void loadTexture();
 	void loadCubemap();
 };
 

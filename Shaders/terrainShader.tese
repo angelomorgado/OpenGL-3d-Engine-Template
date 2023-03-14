@@ -3,7 +3,7 @@
 
 layout (quads, fractional_odd_spacing, ccw) in;
 
-uniform sampler2D heightmap // The texture corresponding to our height map
+uniform sampler2D heightmap; // The texture corresponding to our height map
 uniform mat4 model; 
 uniform mat4 view; 
 uniform mat4 projection;
@@ -29,12 +29,12 @@ void main()
 	// Bilinearly interpolate texture coordinate across patch
 	vec2 t0 = (t01 - t00) * u + t00;
 	vec2 t1 = (t11 - t10) * u + t10;
-	vec3 texCoord = (t1 - t0) * v + t0;
+	vec2 texCoord = (t1 - t0) * v + t0;
 
 	// Lookup the texel at patch coordinate for height and scale + shift as desired
 	float scale = 64.0;
 	float shift = -16.0;
-	Height = texture(heightMap, texCoord).y * scale + shift;
+	Height = texture(heightmap, texCoord).y * scale + shift;
 
 	// Retrieve control point position coordinates
 	vec4 p00 = gl_in[0].gl_Position;
@@ -53,7 +53,7 @@ void main()
 	vec4 p = (p1 - p0) * v + p0;
 
 	// Displace point along normal
-	p += normal * Height
+	p += normal * Height;
 
 	// Output patch position in clip space
 	gl_Position = projection * view * model * p;

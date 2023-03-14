@@ -70,6 +70,7 @@ void Procedural_Terrain_Generation_Scene::loadShaders()
 {
     objectShader = new Shader("Shaders/targetShader.vert", "Shaders/targetShader.frag");
     skyboxShader = new Shader("Shaders/skyboxShader.vert", "Shaders/skyboxShader.frag");
+    terrainShader = new Shader("Shaders/terrainShader.vert", "Shaders/terrainShader-grayscale.frag", nullptr, "Shaders/terrainShader.tesc", "Shaders/terrainShader.tese");
 }
 
 void Procedural_Terrain_Generation_Scene::loadFramebuffers()

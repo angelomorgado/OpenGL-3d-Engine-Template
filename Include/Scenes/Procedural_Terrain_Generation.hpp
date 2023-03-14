@@ -36,11 +36,12 @@ private:
 
     // File paths
     const char* planePath = "Media/Objects/Plane/plane.obj";
-    const char* skyboxPath = "Media/Skyboxes/skybox_galaxy/";
+    const char* skyboxPath = "Media/Skyboxes/skybox_sky/";
 
     // Shaders
     Shader* objectShader;
     Shader* skyboxShader;
+    Shader* terrainShader;
 
     // Models
     Skybox* skybox;

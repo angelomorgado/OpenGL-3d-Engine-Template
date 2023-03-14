@@ -3,18 +3,25 @@
 // Constructors
 Terrain::Terrain(GLuint seed)
 {
-
+    // TODO: Noise function that generates heightmap
 }
 
-Terrain::Terrain(const char* filePath)
+Terrain::Terrain(const char* filePath, Shader* terrainShader)
 {
+    texture.setParameters(filePath, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_RGBA, 0);
+    texture.loadTexture();
+
+    this->height = texture.getHeight();
+    this->width = texture.getWidth();
+    this->nChannels = texture.getNChannels();
     
+    terrainShader->setInt("heightMap", 0);
+    std::cout << "Loaded heightmap of size " << height << " x " << width << std::endl;
 }
 
 void Terrain::readData(const char* filePath)
 {
-    // Load height map texture
-    heightmapData = stbi_load(filePath, &(this->width), &(this->height), &(this->nChannels), 0);
+
 }
 
 void Terrain::initializeVertices()

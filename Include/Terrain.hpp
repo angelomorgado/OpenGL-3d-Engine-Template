@@ -21,7 +21,7 @@ class Terrain
 {
     public:
         Terrain(GLuint seed);
-        Terrain(const char* filePath);
+        Terrain(const char* filePath, Shader* terrainShader);
         void draw();
     private:
         std::vector<float> vertices;
@@ -29,7 +29,7 @@ class Terrain
         int height, width, nChannels;
         unsigned char *heightmapData;
         GLuint VAO, VBO;
-        // Texture texture;
+        Texture texture;
 
         void readData(const char* filePath);
         void initializeVertices();

@@ -13,6 +13,8 @@ Texture::Texture(std::string texturePath, int wrapS, int wrapT , int minFilter ,
     loadTexture();
 }
 
+Texture::Texture(){}
+
 Texture::Texture(std::vector<std::string> cubemapFaces, int wrapS , int wrapT , int minFilter , int magFilter , int colorModel , int textureNumber)
 {
     this->id = 0;
@@ -90,4 +92,31 @@ void Texture::bind()
 {
     glActiveTexture(textureNumber);
     glBindTexture(GL_TEXTURE_2D, id);
+}
+
+void Texture::setParameters(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter , int colorModel , int textureNumber)
+{
+    this->id = 0;
+    this->cubemapFaces = cubemapFaces;
+    this->wrapS = wrapS;
+    this->wrapT = wrapT;
+    this->minFilter = minFilter;
+    this->magFilter = magFilter;
+    this->colorModel = colorModel;
+    this->textureNumber = textureNumber;
+}
+
+int Texture::getHeight()
+{
+    return this->height;
+}
+
+int Texture::getWidth()
+{
+    return this->width;
+}
+
+int Texture::getNChannels()
+{
+    return this->nrChannels;
 }
