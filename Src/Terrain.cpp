@@ -89,6 +89,7 @@ void Terrain::initializeVertices()
     std::cout << "Processing " << rez*rez*4 << " vertices in vertex shader" << std::endl;
 }
 
+// Default draw function
 void Terrain::draw(Shader* terrainShader, Camera camera)
 {    
     terrainShader->use();
@@ -103,6 +104,25 @@ void Terrain::draw(Shader* terrainShader, Camera camera)
     // world transformation
     glm::mat4 model = glm::mat4(1.0f);
     terrainShader->setMat4("model", model);
+
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_PATCHES, 0, NUM_PATCH_PTS*rez*rez);
+}
+
+// Customizable draw function
+void Terrain::draw(Shader* terrainShader, Camera camera, glm::vec3 translation, glm::vec3 scale, float rotation)
+{
+    terrainShader->use();
+    // view/projection transformations
+    glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100000.0f);
+    glm::mat4 view = camera.GetViewMatrix();
+    terrainShader->setMat4("projection", projection);
+    terrainShader->setMat4("view", view);
+
+    texture.bind();
+
+    // world transformation
+    setModel(terrainShader, translation, glm::vec3(0.0f,1.0f,0.0f), rotation, scale);
 
     glBindVertexArray(VAO);
     glDrawArrays(GL_PATCHES, 0, NUM_PATCH_PTS*rez*rez);

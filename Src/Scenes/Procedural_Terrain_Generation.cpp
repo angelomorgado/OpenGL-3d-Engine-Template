@@ -24,10 +24,10 @@ void Procedural_Terrain_Generation_Scene::setupScene(GLFWwindow* window)
 
 void Procedural_Terrain_Generation_Scene::loadModels()
 {
-    plane = new Model(planePath);
-    plane->changeTexture("wood_floor.png", "Media/Textures");
-    cube = new Model(cubePath);
-    cube->changeTexture("container.jpg", "Media/Textures");
+    // plane = new Model(planePath);
+    // plane->changeTexture("wood_floor.png", "Media/Textures");
+    // cube = new Model(cubePath);
+    // cube->changeTexture("container.jpg", "Media/Textures");
     skybox = new Skybox(skyboxPath);
 
     // Setup terrain
@@ -46,6 +46,13 @@ void Procedural_Terrain_Generation_Scene::renderScene()
     // Draw the objects
     // Pyramid  
 
+    // terrain->draw(terrainShader,
+    //     	camera,
+    //         glm::vec3(0.0f), // Translation
+    //         glm::vec3(0.02f), // Scale
+    //         0.0f // Rotation angle
+    //         );
+
     terrain->draw(terrainShader, camera);
     
     objectShader->use();
@@ -53,32 +60,32 @@ void Procedural_Terrain_Generation_Scene::renderScene()
     setProjection(objectShader, glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
     
     // Plane  
-    setModel(
-        objectShader, // shader
-        glm::vec3(0.0f), // translation
-        glm::vec3(0.0f, 1.0f, 0.0f), // rotation axis
-        0.0f, // rotation angle
-        glm::vec3(1.0f) // scale
-    );
-    objectShader->setVec3("material.ambient", default_mat.Ambient);
-    objectShader->setVec3("material.diffuse", default_mat.Diffuse);
-    objectShader->setVec3("material.specular", default_mat.Specular);
-    objectShader->setFloat("material.shininess", default_mat.Shininess);
-    plane->Draw(*objectShader);
+    // setModel(
+    //     objectShader, // shader
+    //     glm::vec3(0.0f), // translation
+    //     glm::vec3(0.0f, 1.0f, 0.0f), // rotation axis
+    //     0.0f, // rotation angle
+    //     glm::vec3(1.0f) // scale
+    // );
+    // objectShader->setVec3("material.ambient", default_mat.Ambient);
+    // objectShader->setVec3("material.diffuse", default_mat.Diffuse);
+    // objectShader->setVec3("material.specular", default_mat.Specular);
+    // objectShader->setFloat("material.shininess", default_mat.Shininess);
+    // plane->Draw(*objectShader);
 
-    // Cube  
-    setModel(
-        objectShader, // shader
-        glm::vec3(0.0f), // translation
-        glm::vec3(0.0f, 1.0f, 0.0f), // rotation axis
-        0.0f, // rotation angle
-        glm::vec3(1.0f) // scale
-    );
-    objectShader->setVec3("material.ambient", default_mat.Ambient);
-    objectShader->setVec3("material.diffuse", default_mat.Diffuse);
-    objectShader->setVec3("material.specular", default_mat.Specular);
-    objectShader->setFloat("material.shininess", default_mat.Shininess);
-    cube->Draw(*objectShader);
+    // // Cube  
+    // setModel(
+    //     objectShader, // shader
+    //     glm::vec3(0.0f), // translation
+    //     glm::vec3(0.0f, 1.0f, 0.0f), // rotation axis
+    //     0.0f, // rotation angle
+    //     glm::vec3(1.0f) // scale
+    // );
+    // objectShader->setVec3("material.ambient", default_mat.Ambient);
+    // objectShader->setVec3("material.diffuse", default_mat.Diffuse);
+    // objectShader->setVec3("material.specular", default_mat.Specular);
+    // objectShader->setFloat("material.shininess", default_mat.Shininess);
+    // cube->Draw(*objectShader);
 
     // Skybox 
     skybox->Draw(*skyboxShader, camera);
@@ -93,7 +100,7 @@ void Procedural_Terrain_Generation_Scene::loadShaders()
 {
     objectShader = new Shader("Shaders/targetShader.vert", "Shaders/targetShader.frag");
     skyboxShader = new Shader("Shaders/skyboxShader.vert", "Shaders/skyboxShader.frag");
-    terrainShader = new Shader("Shaders/terrainShader.vert", "Shaders/terrainShader-grayscale.frag", nullptr, "Shaders/terrainShader.tesc", "Shaders/terrainShader.tese");
+    terrainShader = new Shader("Shaders/terrainShader.vert", "Shaders/terrainShader-grayscale.frag", nullptr, "Shaders/terrainShader-dynamic.tesc", "Shaders/terrainShader.tese");
 }
 
 void Procedural_Terrain_Generation_Scene::loadFramebuffers()
