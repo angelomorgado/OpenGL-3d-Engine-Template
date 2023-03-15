@@ -46,12 +46,14 @@ void Procedural_Terrain_Generation_Scene::renderScene()
     // Draw the objects
     // Pyramid  
 
-    terrain->draw(terrainShader,
-        	camera,
-            glm::vec3(0.0f), // Translation
-            glm::vec3(0.02f), // Scale
-            0.0f // Rotation angle
-            );
+    // terrain->draw(terrainShader,
+    //     	camera,
+    //         glm::vec3(0.0f), // Translation
+    //         glm::vec3(0.02f), // Scale
+    //         0.0f // Rotation angle
+    //         );
+
+    terrain->draw(terrainShader, camera);
     
     objectShader->use();
     setView(objectShader, camera.GetViewMatrix());
@@ -98,7 +100,7 @@ void Procedural_Terrain_Generation_Scene::loadShaders()
 {
     objectShader = new Shader("Shaders/targetShader.vert", "Shaders/targetShader.frag");
     skyboxShader = new Shader("Shaders/skyboxShader.vert", "Shaders/skyboxShader.frag");
-    terrainShader = new Shader("Shaders/terrainShader.vert", "Shaders/terrainShader-grayscale.frag", nullptr, "Shaders/terrainShader.tesc", "Shaders/terrainShader.tese");
+    terrainShader = new Shader("Shaders/terrainShader.vert", "Shaders/terrainShader-grayscale.frag", nullptr, "Shaders/terrainShader-dynamic.tesc", "Shaders/terrainShader.tese");
 }
 
 void Procedural_Terrain_Generation_Scene::loadFramebuffers()
