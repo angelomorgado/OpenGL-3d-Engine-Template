@@ -16,6 +16,7 @@
 #include <Textures.hpp>
 #include <Shader.hpp>
 #include <Camera.hpp>
+#include <Scene.hpp>
 #include "stb_image.h"
 
 class Terrain
@@ -25,6 +26,7 @@ class Terrain
         Terrain(GLuint seed);
         Terrain(const char* filePath, Shader* terrainShader);
         void draw(Shader* terrainShader, Camera camera);
+        void draw(Shader* terrainShader, Camera camera, glm::vec3 translation, glm::vec3 scale, float rotation);
         void readData(const char* filePath, Shader* terrainShader);
     private:
         std::vector<float> vertices;
