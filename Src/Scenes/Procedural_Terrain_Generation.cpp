@@ -1,7 +1,5 @@
 #include <Scenes/Procedural_Terrain_Generation.hpp>
 
-// TODO: Fazer as cenas da parte do CPU todas :)
-
 Procedural_Terrain_Generation_Scene::Procedural_Terrain_Generation_Scene()
 {
 }
@@ -20,10 +18,15 @@ void Procedural_Terrain_Generation_Scene::setupScene(GLFWwindow* window)
     // Initialize ImGUI
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGuiIO& io = ImGui::GetIO();
+    io.WantCaptureMouse = true;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;
+    (void)io;
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 460");
+
+    // ui = new UiManager("window!", window);
 }
 
 void Procedural_Terrain_Generation_Scene::loadModels()
@@ -40,15 +43,9 @@ void Procedural_Terrain_Generation_Scene::renderScene()
     camera.updateDeltaTime();
 
     // Clear the screen
-    glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+    glClearColor(0.0f, 0.8f, 0.8f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    // Imgui window initialization
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-
-
+    
     // Draw the objects
     // Pyramid  
 
@@ -83,15 +80,34 @@ void Procedural_Terrain_Generation_Scene::renderScene()
     
     // Skybox 
     skybox->Draw(*skyboxShader, camera);
+    
+    // Imgui window initialization
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
 
     // Imgui configure frame
-    ImGui::Begin("This is a window!");
-    ImGui::Text("Hello world!");
+    ImGui::Begin("This is a window!", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBringToFrontOnFocus);
+    ImGui::Text("Hello, world %d", 123);
+    if (ImGui::Button("Save"))
+        std::cout << "Saved!" << std::endl;
+    // char *buf;
+    // ImGui::InputText("string", buf, IM_ARRAYSIZE(buf));
+    // ImGui::SliderFloat("shift", &shift, 0.0f, 20.0f);
     ImGui::End();
 
     // Imgui render frame
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    // // Begin ImGui frame
+    // ui->begin_frame();
+
+    // // Create ImGui window
+    // ui->open_imgui_window();
+
+    // // End ImGui frame
+    // ui->end_frame();
 
     // Swap the buffers
     glfwSwapBuffers(window);

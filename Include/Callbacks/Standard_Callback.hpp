@@ -11,24 +11,15 @@
 
 Camera* cam;
 CameraPos* cam_pos;
-bool* laplace_is_filtered;
-bool laplace_is_wireframe = false;
+bool* is_filtered;
+bool is_wireframe = false;
+bool is_cursor = false;
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
     cam->ProcessMouseScroll(static_cast<float>(yoffset));
 }
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
-
-    // Check if alt is being pressed
-    if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
-    {
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-        return;
-    }
-    
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
 
@@ -44,7 +35,7 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
 
     cam_pos->lastX = xpos;
     cam_pos->lastY = ypos;
-
+    
     cam->ProcessMouseMovement(xoffset, yoffset);
 }
 
@@ -58,17 +49,36 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	// Keybinds
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
 	{
-		*laplace_is_filtered = !*laplace_is_filtered;
+		*is_filtered = !*is_filtered;
 	}
 	// Keybinds
 	if (key == GLFW_KEY_P && action == GLFW_PRESS)
 	{
-        laplace_is_wireframe = !laplace_is_wireframe;
-        if (laplace_is_wireframe)
+        is_wireframe = !is_wireframe;
+        if (is_wireframe)
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         else
 		    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
+
+    // Check if alt is being pressed
+    if (key == GLFW_KEY_LEFT_ALT && action == GLFW_PRESS)
+    {
+        is_cursor = !is_cursor;
+        if(is_cursor)
+        {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            glfwSetCursorPosCallback(window, NULL);
+        }
+        else
+        {
+            glfwSetCursorPosCallback(window, mouse_callback);
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+            // Reset the mouse position to the last position before toggling is_cursor
+            glfwSetCursorPos(window, cam_pos->lastX, cam_pos->lastY);
+        }
+    }
 }
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
@@ -107,7 +117,7 @@ void processInput(GLFWwindow* window, Camera* camera)
 void processCallbacks(GLFWwindow* window, Camera* camera, CameraPos* cameraPos, bool* isFiltered){
     cam = camera;
     cam_pos = cameraPos;
-    laplace_is_filtered = isFiltered;
+    is_filtered = isFiltered;
 
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);

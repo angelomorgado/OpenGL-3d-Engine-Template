@@ -19,6 +19,7 @@
 #include <Skybox.hpp>
 #include <Framebuffer.hpp>
 #include <Terrain.hpp>
+#include <Imgui.hpp>
 
 #include <iostream>
 #include <thread>
@@ -41,6 +42,7 @@ private:
     glm::vec3 cameraInitialPos = glm::vec3(-1.99221f, 70.42674f, 5.2215f);
 	glm::vec3 cameraInitialTarget = glm::vec3(7.0f, 70.0f, 0.0f);
     bool is_wireframe = false;
+    UiManager* ui;
 
     // File paths
     const char* planePath = "Media/Objects/Plane/plane.obj";
