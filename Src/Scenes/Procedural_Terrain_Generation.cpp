@@ -10,24 +10,24 @@ void Procedural_Terrain_Generation_Scene::setupScene(GLFWwindow* window)
 {
     // Extra variables initialization
     this->window = window;
-    is_filtered = false;
-    is_wireframe = false;
-    cameraInitialPos = glm::vec3(-1.99221f, 2.42674f, 5.2215f);
-	cameraInitialTarget = glm::vec3(7.0f, 2.0f, 0.0f);
     
     loadShaders();
     loadModels();
     loadFramebuffers();
     setupLightingAndMaterials();
     setupCamera();
+
+    // Initialize ImGUI
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 460");
 }
 
 void Procedural_Terrain_Generation_Scene::loadModels()
 {
-    // plane = new Model(planePath);
-    // plane->changeTexture("wood_floor.png", "Media/Textures");
-    // cube = new Model(cubePath);
-    // cube->changeTexture("container.jpg", "Media/Textures");
     skybox = new Skybox(skyboxPath);
 
     // Setup terrain
@@ -43,9 +43,16 @@ void Procedural_Terrain_Generation_Scene::renderScene()
     glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // Imgui window initialization
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+
+
     // Draw the objects
     // Pyramid  
 
+    // Customizable draw function
     // terrain->draw(terrainShader,
     //     	camera,
     //         glm::vec3(0.0f), // Translation
@@ -53,42 +60,38 @@ void Procedural_Terrain_Generation_Scene::renderScene()
     //         0.0f // Rotation angle
     //         );
 
+    // Default draw function
+    int MIN_TESS_LEVEL = 4;
+    int MAX_TESS_LEVEL = 64;
+    float MIN_DISTANCE = 20.0f;
+    float MAX_DISTANCE = 800.0f;
+    float scale = 64.0f;
+    float shift = 0.0f;
+
+    terrainShader->use();
+    terrainShader->setInt("MIN_TESS_LEVEL", MIN_TESS_LEVEL);
+    terrainShader->setInt("MAX_TESS_LEVEL", MAX_TESS_LEVEL);
+    terrainShader->setFloat("MIN_DISTANCE", MIN_DISTANCE);
+    terrainShader->setFloat("MAX_DISTANCE", MAX_DISTANCE);
+    terrainShader->setFloat("scale", scale);
+    terrainShader->setFloat("shift", shift);
     terrain->draw(terrainShader, camera);
     
     objectShader->use();
     setView(objectShader, camera.GetViewMatrix());
     setProjection(objectShader, glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
     
-    // Plane  
-    // setModel(
-    //     objectShader, // shader
-    //     glm::vec3(0.0f), // translation
-    //     glm::vec3(0.0f, 1.0f, 0.0f), // rotation axis
-    //     0.0f, // rotation angle
-    //     glm::vec3(1.0f) // scale
-    // );
-    // objectShader->setVec3("material.ambient", default_mat.Ambient);
-    // objectShader->setVec3("material.diffuse", default_mat.Diffuse);
-    // objectShader->setVec3("material.specular", default_mat.Specular);
-    // objectShader->setFloat("material.shininess", default_mat.Shininess);
-    // plane->Draw(*objectShader);
-
-    // // Cube  
-    // setModel(
-    //     objectShader, // shader
-    //     glm::vec3(0.0f), // translation
-    //     glm::vec3(0.0f, 1.0f, 0.0f), // rotation axis
-    //     0.0f, // rotation angle
-    //     glm::vec3(1.0f) // scale
-    // );
-    // objectShader->setVec3("material.ambient", default_mat.Ambient);
-    // objectShader->setVec3("material.diffuse", default_mat.Diffuse);
-    // objectShader->setVec3("material.specular", default_mat.Specular);
-    // objectShader->setFloat("material.shininess", default_mat.Shininess);
-    // cube->Draw(*objectShader);
-
     // Skybox 
     skybox->Draw(*skyboxShader, camera);
+
+    // Imgui configure frame
+    ImGui::Begin("This is a window!");
+    ImGui::Text("Hello world!");
+    ImGui::End();
+
+    // Imgui render frame
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     // Swap the buffers
     glfwSwapBuffers(window);
@@ -132,4 +135,12 @@ void Procedural_Terrain_Generation_Scene::setupCamera()
         cameraInitialPos,
 		cameraInitialTarget 
     );
+}
+
+void Procedural_Terrain_Generation_Scene::terminateScene()
+{
+    // Deletes all ImGUI instances
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 }

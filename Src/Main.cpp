@@ -36,5 +36,7 @@ int main()
 
     glfwTerminate();
 
+    scene.terminateScene();
+
     return 0;
 }

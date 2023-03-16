@@ -9,33 +9,43 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-Camera* laplace_cam;
-CameraPos* laplace_cam_pos;
+Camera* cam;
+CameraPos* cam_pos;
 bool* laplace_is_filtered;
 bool laplace_is_wireframe = false;
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
-    laplace_cam->ProcessMouseScroll(static_cast<float>(yoffset));
+    cam->ProcessMouseScroll(static_cast<float>(yoffset));
 }
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
+
+    // Check if alt is being pressed
+    if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
+    {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        return;
+    }
+    
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
 
-    if (laplace_cam_pos->firstMouse)
+    if (cam_pos->firstMouse)
     {
-        laplace_cam_pos->lastX = xpos;
-        laplace_cam_pos->lastY = ypos;
-        laplace_cam_pos->firstMouse = false;
+        cam_pos->lastX = xpos;
+        cam_pos->lastY = ypos;
+        cam_pos->firstMouse = false;
     }
 
-    float xoffset = xpos - laplace_cam_pos->lastX;
-    float yoffset = laplace_cam_pos->lastY - ypos; // reversed since y-coordinates go from bottom to top
+    float xoffset = xpos - cam_pos->lastX;
+    float yoffset = cam_pos->lastY - ypos; // reversed since y-coordinates go from bottom to top
 
-    laplace_cam_pos->lastX = xpos;
-    laplace_cam_pos->lastY = ypos;
+    cam_pos->lastX = xpos;
+    cam_pos->lastY = ypos;
 
-    laplace_cam->ProcessMouseMovement(xoffset, yoffset);
+    cam->ProcessMouseMovement(xoffset, yoffset);
 }
 
 // This callback function can't be used for things like movement because it doesn't work while pressing
@@ -95,8 +105,8 @@ void processInput(GLFWwindow* window, Camera* camera)
 }
 
 void processCallbacks(GLFWwindow* window, Camera* camera, CameraPos* cameraPos, bool* isFiltered){
-    laplace_cam = camera;
-    laplace_cam_pos = cameraPos;
+    cam = camera;
+    cam_pos = cameraPos;
     laplace_is_filtered = isFiltered;
 
     glfwSetCursorPosCallback(window, mouse_callback);
