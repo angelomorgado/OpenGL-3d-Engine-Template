@@ -57,14 +57,6 @@ void Procedural_Terrain_Generation_Scene::renderScene()
     //         0.0f // Rotation angle
     //         );
 
-    // Default draw function
-    int MIN_TESS_LEVEL = 4;
-    int MAX_TESS_LEVEL = 64;
-    float MIN_DISTANCE = 20.0f;
-    float MAX_DISTANCE = 800.0f;
-    float scale = 64.0f;
-    float shift = 0.0f;
-
     terrainShader->use();
     terrainShader->setInt("MIN_TESS_LEVEL", MIN_TESS_LEVEL);
     terrainShader->setInt("MAX_TESS_LEVEL", MAX_TESS_LEVEL);
@@ -87,13 +79,16 @@ void Procedural_Terrain_Generation_Scene::renderScene()
     ImGui::NewFrame();
 
     // Imgui configure frame
-    ImGui::Begin("This is a window!", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBringToFrontOnFocus);
-    ImGui::Text("Hello, world %d", 123);
-    if (ImGui::Button("Save"))
-        std::cout << "Saved!" << std::endl;
+    ImGui::Begin("Parameter Manager", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBringToFrontOnFocus);
+    // ImGui::Text("Hello, world %d", 123);
+    // if (ImGui::Button("Save"))
+    //     std::cout << "Saved!" << std::endl;
     // char *buf;
     // ImGui::InputText("string", buf, IM_ARRAYSIZE(buf));
-    // ImGui::SliderFloat("shift", &shift, 0.0f, 20.0f);
+    ImGui::SliderFloat("Shift", &shift, -20.0f, 20.0f);
+    ImGui::SliderFloat("Scale", &scale, -20.0f, 100.0f);
+    ImGui::SliderFloat("Min Distance", &MIN_DISTANCE, 0.0f, 100.0f);
+    ImGui::SliderFloat("Max Distance", &MAX_DISTANCE, 101.0f, 800.0f);
     ImGui::End();
 
     // Imgui render frame

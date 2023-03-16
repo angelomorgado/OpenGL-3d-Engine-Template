@@ -44,6 +44,13 @@ private:
     bool is_wireframe = false;
     UiManager* ui;
 
+    int MIN_TESS_LEVEL = 4;
+    int MAX_TESS_LEVEL = 64;
+    float MIN_DISTANCE = 20.0f;
+    float MAX_DISTANCE = 800.0f;
+    float scale = 64.0f;
+    float shift = 0.0f;
+
     // File paths
     const char* planePath = "Media/Objects/Plane/plane.obj";
     const char* cubePath = "Media/Objects/Cube/cube.obj";
