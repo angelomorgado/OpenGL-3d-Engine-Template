@@ -15,7 +15,7 @@ Terrain::Terrain(const char* filePath, Shader* terrainShader)
 
 void Terrain::readData(const char* filePath, Shader* terrainShader)
 {
-    texture.setParameters(filePath, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_RGBA);
+    texture.setParameters(filePath, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_RGB);
     texture.loadTexture();
 
     this->height = texture.getHeight();

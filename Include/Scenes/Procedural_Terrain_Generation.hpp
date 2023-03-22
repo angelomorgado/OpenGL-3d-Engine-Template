@@ -55,7 +55,7 @@ private:
     const char* planePath = "Media/Objects/Plane/plane.obj";
     const char* cubePath = "Media/Objects/Cube/cube.obj";
     const char* skyboxPath = "Media/Skyboxes/skybox_sky/";
-    const char* heightmapPath = "Media/Textures/Heightmaps/peninsula.png";
+    const char* heightmapPath = "Media/Textures/Heightmaps/1.png";
 
     // Shaders
     Shader* objectShader;
