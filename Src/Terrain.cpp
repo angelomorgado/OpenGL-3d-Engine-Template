@@ -3,9 +3,44 @@
 // Constructors
 Terrain::Terrain(){}
 
-Terrain::Terrain(GLuint seed)
+Terrain::Terrain(Shader* terrainShader, GLuint seed)
 {
-    // TODO: Noise function that generates heightmap
+    std::cout << "Generating heightmap with seed " << seed << std::endl;
+    generateHeightmap(seed, terrainShader);
+}
+
+void Terrain::generateHeightmap(GLuint seed, Shader* terrainShader)
+{
+    // Set up noise
+    noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+    noise.SetSeed(seed);
+    noise.SetFrequency(frequency);
+    noise.SetFractalType(FastNoiseLite::FractalType_FBm);
+    noise.SetFractalOctaves(octaves);
+    noise.SetFractalLacunarity(lacunarity);
+    noise.SetFractalGain(gain);
+    noise.SetFractalWeightedStrength(weightedStrength);
+
+    noiseData = new float[noiseSize * noiseSize];
+    for (int y = 0; y < noiseSize; y++)
+    {
+        for (int x = 0; x < noiseSize; x++)
+        {
+            noiseData[y * noiseSize + x] = noise.GetNoise((float)x, (float)y);
+        }
+    }
+    std::cout << "Generated heightmap of size " << noiseSize << " x " << noiseSize << std::endl;
+
+    this->height = noiseSize;
+    this->width = noiseSize;
+    this->nChannels = 1;
+
+    texture.loadTextureFromNoiseData(noiseData, noiseSize, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_RGB);
+    terrainShader->setInt("heightmap", texture.textureNumber);
+    std::cout << "Loaded heightmap of size " << height << " x " << width << std::endl;
+
+    initializeVertices();
+    transferDataToGPU();
 }
 
 Terrain::Terrain(const char* filePath, Shader* terrainShader)
@@ -22,7 +57,7 @@ void Terrain::readData(const char* filePath, Shader* terrainShader)
     this->width = texture.getWidth();
     this->nChannels = texture.getNChannels();
     
-    terrainShader->setInt("heightMap", texture.textureNumber);
+    terrainShader->setInt("heightmap", texture.textureNumber);
     std::cout << "Loaded heightmap of size " << height << " x " << width << std::endl;
 
     initializeVertices();

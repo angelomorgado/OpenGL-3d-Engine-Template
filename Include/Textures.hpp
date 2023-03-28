@@ -33,6 +33,7 @@ public:
 	int getHeight();
 	int getWidth();
 	int getNChannels();
+	void loadTextureFromNoiseData(float* noiseData, int noiseSize,  int wrapS, int wrapT , int minFilter , int magFilter , int colorModel);
 
 	static int textureNumber;
 
@@ -51,6 +52,7 @@ private:
 	int height;
 	int nrChannels;
 	void loadCubemap();
+	float* transformImageData(float* data, int width, int height);
 };
 
 #endif

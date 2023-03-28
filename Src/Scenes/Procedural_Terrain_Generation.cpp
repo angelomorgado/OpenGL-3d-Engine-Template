@@ -35,6 +35,7 @@ void Procedural_Terrain_Generation_Scene::loadModels()
 
     // Setup terrain
     terrain = new Terrain(heightmapPath, terrainShader);
+    // terrain = new Terrain(terrainShader, 100);
 }
 
 void Procedural_Terrain_Generation_Scene::renderScene()
@@ -114,7 +115,7 @@ void Procedural_Terrain_Generation_Scene::loadShaders()
 {
     objectShader = new Shader("Shaders/targetShader.vert", "Shaders/targetShader.frag");
     skyboxShader = new Shader("Shaders/skyboxShader.vert", "Shaders/skyboxShader.frag");
-    terrainShader = new Shader("Shaders/terrainShader.vert", "Shaders/terrainShader-grayscale.frag", nullptr, "Shaders/terrainShader-dynamic.tesc", "Shaders/terrainShader.tese");
+    terrainShader = new Shader("Shaders/terrainShader.vert", "Shaders/terrainShader-biomes.frag", nullptr, "Shaders/terrainShader-dynamic.tesc", "Shaders/terrainShader.tese");
 }
 
 void Procedural_Terrain_Generation_Scene::loadFramebuffers()
