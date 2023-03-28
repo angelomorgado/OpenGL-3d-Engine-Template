@@ -34,8 +34,8 @@ void Procedural_Terrain_Generation_Scene::loadModels()
     skybox = new Skybox(skyboxPath);
 
     // Setup terrain
-    terrain = new Terrain(heightmapPath, terrainShader);
-    // terrain = new Terrain(terrainShader, 100);
+    // terrain = new Terrain(heightmapPath, terrainShader);
+    terrain = new Terrain(terrainShader, 100);
 }
 
 void Procedural_Terrain_Generation_Scene::renderScene()
@@ -81,35 +81,34 @@ void Procedural_Terrain_Generation_Scene::renderScene()
 
     // Imgui configure frame
     ImGui::Begin("Parameter Manager", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBringToFrontOnFocus);
-    // ImGui::Text("Hello, world %d", 123);
-    // if (ImGui::Button("Save"))
-    //     std::cout << "Saved!" << std::endl;
-    // char *buf;
-    // ImGui::InputText("string", buf, IM_ARRAYSIZE(buf));
+    ImGui::Text("Heightmap Parameters:");
     ImGui::SliderFloat("Shift", &shift, -20.0f, 20.0f);
     ImGui::SliderFloat("Scale", &scale, -20.0f, 100.0f);
     ImGui::SliderFloat("Min Distance", &MIN_DISTANCE, 0.0f, 100.0f);
     ImGui::SliderFloat("Max Distance", &MAX_DISTANCE, 101.0f, 800.0f);
+    ImGui::Text("Noise parameters:");
+    ImGui::InputInt("Seed", &terrain->seed);
+    ImGui::SliderFloat("Frequency", &terrain->frequency, 0.0f, 0.1f);
+    ImGui::SliderInt("Octaves", &terrain->octaves, 1, 10);
+    ImGui::SliderFloat("Lacunarity", &terrain->lacunarity, 0.0f, 5.0f);
+    ImGui::SliderFloat("Gain", &terrain->gain, 0.0f, 2.0f);
+    ImGui::SliderFloat("Weighted Strength", &terrain->weightedStrength, 0.0f, 1.0f);
+    if (ImGui::Button("Generate"))
+    {
+        terrain->setNoiseParameters();
+        terrain->generateHeightmap(terrainShader, terrain->seed);
+        std::cout << "Generated new heigthmap" << std::endl;
+    }
     ImGui::End();
 
     // Imgui render frame
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    // // Begin ImGui frame
-    // ui->begin_frame();
-
-    // // Create ImGui window
-    // ui->open_imgui_window();
-
-    // // End ImGui frame
-    // ui->end_frame();
-
     // Swap the buffers
     glfwSwapBuffers(window);
     glfwPollEvents();
 }
-
 
 void Procedural_Terrain_Generation_Scene::loadShaders()
 {
@@ -127,7 +126,7 @@ void Procedural_Terrain_Generation_Scene::setupLightingAndMaterials()
 {
     // Target shader
     objectShader->use();
-    //Lighting, TODO: MAKE A LIGHT STRUCT
+    //Lighting
     objectShader->setVec3("objectColor", 1.0f, 1.0f, 1.0f);
     objectShader->setVec3("light.position", 1.0f, 5.0f, 1.0f);
     objectShader->setVec3("light.ambient", 0.6f, 0.6f, 0.6f);

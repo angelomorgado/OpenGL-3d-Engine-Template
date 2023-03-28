@@ -6,12 +6,12 @@ Terrain::Terrain(){}
 Terrain::Terrain(Shader* terrainShader, GLuint seed)
 {
     std::cout << "Generating heightmap with seed " << seed << std::endl;
-    generateHeightmap(seed, terrainShader);
+    this->seed = seed;
+    generateHeightmap(terrainShader, seed);
 }
 
-void Terrain::generateHeightmap(GLuint seed, Shader* terrainShader)
+void Terrain::setNoiseParameters()
 {
-    // Set up noise
     noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
     noise.SetSeed(seed);
     noise.SetFrequency(frequency);
@@ -20,6 +20,12 @@ void Terrain::generateHeightmap(GLuint seed, Shader* terrainShader)
     noise.SetFractalLacunarity(lacunarity);
     noise.SetFractalGain(gain);
     noise.SetFractalWeightedStrength(weightedStrength);
+}
+
+void Terrain::generateHeightmap(Shader* terrainShader, GLuint seed)
+{
+    // Set up noise
+    setNoiseParameters();
 
     noiseData = new float[noiseSize * noiseSize];
     for (int y = 0; y < noiseSize; y++)

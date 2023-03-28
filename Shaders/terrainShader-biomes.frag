@@ -14,26 +14,27 @@ uniform float shift;
 
 void main()
 {
+    // Get the correct height according to the scale and shift (Makes it dynamic)
     float h = (Height + shift) / scale;
     
+    // Water/Ocean biome
     if (h < waterLevel) {
-        // Water/Ocean biome
         FragColor = vec4(0.0, 0.0, h*1.5, 1.0); // Blue color
     }
+    // Beach biome
     else if (h < beachLevel) {
-        // Beach biome
         FragColor = vec4(1.0, h+0.1, h-0.1, 1.0); // Sand colored
     }
+    // Forest Mountain biome
     else if (h < forestMountainLevel) {
-        // Forest Mountain biome
         FragColor = vec4(0.0, h+0.1, 0.0, 1.0); // Green color
     }
+    // Snowy Mountain biome
     else if (h < snowyMountainLevel) {
-        // Snowy Mountain biome
         FragColor = vec4(h*1.2, h*1.2, h*1.2, 1.0); // Snow colored
     }
+    // Higher than snowy mountain level
     else {
-        // Higher than snowy mountain level
         FragColor = vec4(1.0, 1.0, 1.0, 1.0); // White color
     }
 }
