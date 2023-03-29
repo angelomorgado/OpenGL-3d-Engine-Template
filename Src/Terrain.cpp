@@ -3,11 +3,18 @@
 // Constructors
 Terrain::Terrain(){}
 
+// Procedural terrain constructor
 Terrain::Terrain(Shader* terrainShader, GLuint seed)
 {
     std::cout << "Generating heightmap with seed " << seed << std::endl;
     this->seed = seed;
     generateHeightmap(terrainShader, seed);
+}
+
+// Non-procedural terrain constructor
+Terrain::Terrain(const char* filePath, Shader* terrainShader)
+{
+    readData(filePath, terrainShader);
 }
 
 void Terrain::setNoiseParameters()
@@ -49,14 +56,10 @@ void Terrain::generateHeightmap(Shader* terrainShader, GLuint seed)
     transferDataToGPU();
 }
 
-Terrain::Terrain(const char* filePath, Shader* terrainShader)
-{
-    readData(filePath, terrainShader);
-}
 
 void Terrain::readData(const char* filePath, Shader* terrainShader)
 {
-    texture.setParameters(filePath, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_RGB);
+    texture.setParameters(filePath, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
     texture.loadTexture();
 
     this->height = texture.getHeight();

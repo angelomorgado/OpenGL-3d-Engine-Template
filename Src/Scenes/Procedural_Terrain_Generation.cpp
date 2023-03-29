@@ -46,17 +46,6 @@ void Procedural_Terrain_Generation_Scene::renderScene()
     // Clear the screen
     glClearColor(0.0f, 0.8f, 0.8f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    // Draw the objects
-    // Pyramid  
-
-    // Customizable draw function
-    // terrain->draw(terrainShader,
-    //     	camera,
-    //         glm::vec3(0.0f), // Translation
-    //         glm::vec3(0.02f), // Scale
-    //         0.0f // Rotation angle
-    //         );
 
     terrainShader->use();
     terrainShader->setInt("MIN_TESS_LEVEL", MIN_TESS_LEVEL);
@@ -65,6 +54,15 @@ void Procedural_Terrain_Generation_Scene::renderScene()
     terrainShader->setFloat("MAX_DISTANCE", MAX_DISTANCE);
     terrainShader->setFloat("scale", scale);
     terrainShader->setFloat("shift", shift);
+    
+    // Customizable draw function
+    // terrain->draw(terrainShader,
+    //     	camera,
+    //         glm::vec3(0.0f), // Translation
+    //         glm::vec3(0.02f), // Scale
+    //         0.0f // Rotation angle
+    //         );
+
     terrain->draw(terrainShader, camera);
     
     objectShader->use();

@@ -27,7 +27,7 @@ public:
 
 	Texture();
 
-	void setParameters(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter , int colorModel);
+	void setParameters(std::string texturePath, int wrapS, int wrapT , int minFilter , int magFilter);
 	void bind();
 	void loadTexture();
 	int getHeight();
