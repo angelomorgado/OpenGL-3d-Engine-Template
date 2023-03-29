@@ -6,6 +6,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
 #include <Shader.hpp>
 #include <Camera.hpp>
 #include <Utils.hpp>
@@ -15,6 +19,7 @@
 #include <Skybox.hpp>
 #include <Framebuffer.hpp>
 #include <Terrain.hpp>
+#include <Imgui.hpp>
 
 #include <iostream>
 #include <thread>
@@ -22,18 +27,29 @@
 class Procedural_Terrain_Generation_Scene
 {
 public:
+    // Public variables
+    bool is_filtered = false;
     GLFWwindow* window;
     Camera camera;
     CameraPos cameraPos;
-    bool is_filtered;
 
     Procedural_Terrain_Generation_Scene();
     void setupScene(GLFWwindow* window);
     void renderScene();
+    void terminateScene();
 private:
-    // Camera variables
-    glm::vec3 cameraInitialPos;
-    glm::vec3 cameraInitialTarget;
+    // Private variables
+    glm::vec3 cameraInitialPos = glm::vec3(-1.99221f, 70.42674f, 5.2215f);
+	glm::vec3 cameraInitialTarget = glm::vec3(7.0f, 70.0f, 0.0f);
+    bool is_wireframe = false;
+    UiManager* ui;
+
+    int MIN_TESS_LEVEL = 4;
+    int MAX_TESS_LEVEL = 64;
+    float MIN_DISTANCE = 20.0f;
+    float MAX_DISTANCE = 800.0f;
+    float scale = 64.0f;
+    float shift = 0.0f;
 
     // File paths
     const char* planePath = "Media/Objects/Plane/plane.obj";
@@ -55,10 +71,7 @@ private:
     // Textures and materials
     Material default_mat;
 
-    // Extra variables
-    bool is_wireframe;
-
-    // Setup Methods
+    // Methods
     void loadModels();
     void loadShaders();
     void loadFramebuffers();

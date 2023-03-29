@@ -10,13 +10,16 @@
                 "-std=c++17",
                 "-I${workspaceFolder}/Include",
                 "-I${workspaceFolder}/Dependencies/Include",
+                "-I${workspaceFolder}/Dependencies/Include/imgui",
                 "-L${workspaceFolder}/Lib",
                 "${workspaceFolder}/Src/\\*.cpp",
                 "${workspaceFolder}/Src/Scenes/\\*.cpp",
-                "${workspaceFolder}/Dependencies/Src/\\*",
+                "${workspaceFolder}/Dependencies/Src/\\*.c*",
+                "${workspaceFolder}/Dependencies/Src/imgui/\\*",
                 "-lglfw3dll",
                 "-lassimp",
                 "-o",
+
                 "${workspaceFolder}/Main.exe"
             ],
             "options": {

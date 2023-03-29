@@ -3,26 +3,70 @@
 // Constructors
 Terrain::Terrain(){}
 
-Terrain::Terrain(GLuint seed)
+// Procedural terrain constructor
+Terrain::Terrain(Shader* terrainShader, GLuint seed)
 {
-    // TODO: Noise function that generates heightmap
+    std::cout << "Generating heightmap with seed " << seed << std::endl;
+    this->seed = seed;
+    generateHeightmap(terrainShader, seed);
 }
 
+// Non-procedural terrain constructor
 Terrain::Terrain(const char* filePath, Shader* terrainShader)
 {
     readData(filePath, terrainShader);
 }
 
+void Terrain::setNoiseParameters()
+{
+    noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+    noise.SetSeed(seed);
+    noise.SetFrequency(frequency);
+    noise.SetFractalType(FastNoiseLite::FractalType_FBm);
+    noise.SetFractalOctaves(octaves);
+    noise.SetFractalLacunarity(lacunarity);
+    noise.SetFractalGain(gain);
+    noise.SetFractalWeightedStrength(weightedStrength);
+}
+
+void Terrain::generateHeightmap(Shader* terrainShader, GLuint seed)
+{
+    // Set up noise
+    setNoiseParameters();
+
+    noiseData = new float[noiseSize * noiseSize];
+    for (int y = 0; y < noiseSize; y++)
+    {
+        for (int x = 0; x < noiseSize; x++)
+        {
+            noiseData[y * noiseSize + x] = noise.GetNoise((float)x, (float)y);
+        }
+    }
+    std::cout << "Generated heightmap of size " << noiseSize << " x " << noiseSize << std::endl;
+
+    this->height = noiseSize;
+    this->width = noiseSize;
+    this->nChannels = 1;
+
+    texture.loadTextureFromNoiseData(noiseData, noiseSize, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_RGB);
+    terrainShader->setInt("heightmap", texture.textureNumber);
+    std::cout << "Loaded heightmap of size " << height << " x " << width << std::endl;
+
+    initializeVertices();
+    transferDataToGPU();
+}
+
+
 void Terrain::readData(const char* filePath, Shader* terrainShader)
 {
-    texture.setParameters(filePath, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_RGBA);
+    texture.setParameters(filePath, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
     texture.loadTexture();
 
     this->height = texture.getHeight();
     this->width = texture.getWidth();
     this->nChannels = texture.getNChannels();
     
-    terrainShader->setInt("heightMap", texture.textureNumber);
+    terrainShader->setInt("heightmap", texture.textureNumber);
     std::cout << "Loaded heightmap of size " << height << " x " << width << std::endl;
 
     initializeVertices();

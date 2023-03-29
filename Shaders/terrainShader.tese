@@ -8,6 +8,9 @@ uniform mat4 model;
 uniform mat4 view; 
 uniform mat4 projection;
 
+uniform float scale;
+uniform float shift;
+
 // Received from Tessellation Control Shader: all texture coordinates for the patch vertices 
 in vec2 TextureCoord[];
 
@@ -32,8 +35,8 @@ void main()
 	vec2 texCoord = (t1 - t0) * v + t0;
 
 	// Lookup the texel at patch coordinate for height and scale + shift as desired
-	float scale = 64.0;
-	float shift = -16.0;
+	// float scale = 64.0;
+	// float shift = -16.0;
 	Height = texture(heightmap, texCoord).y * scale + shift;
 
 	// Retrieve control point position coordinates
