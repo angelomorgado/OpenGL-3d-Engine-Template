@@ -1,4 +1,4 @@
-# OpenGL Ultimate Template
+# OpenGL 3D Ultimate Template
 
 This is my template for OpenGL projects. It acts as an engine of sorts, providing a simple way to create OpenGL applications. It is designed to be as simple as possible, while still providing a good amount of functionality. It is not meant to be a full game engine, but rather a starting point for creating one.
 
